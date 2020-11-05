@@ -51,84 +51,56 @@ void setup()
 
 void loop()
 {
-  int base_phi = 212 * 2;
-
-  theta.moveTo(0);
-  phi.moveTo(base_phi);
+  long base_phi = 212 * 2;
+  long loc[2] = {200, base_phi};
 
   //initial circle
-  theta.moveTo(200);
-  while (theta.distanceToGo() != 0)
-  {
-    theta.run();
-  }
+  motors.runSpeedToPosition(loc);
   delay(2000);
 
   //start at theta = 200
   //need to go to theta = 0, then theta = 200
-  int delta = 50;
-  int delta_delta = 50;
+  long delta_delta = 50;
+  long delta = delta_delta;
+
   for (int i = 0; i < 2; i++)
   {
-    theta.moveTo(150);
-    phi.moveTo(base_phi - delta);
-    while (theta.distanceToGo() != 0 || phi.distanceToGo() != 0)
+    if (base_phi - delta > 0 && base_phi + delta < 212 * 4)
     {
-      theta.run();
-      phi.run();
-    }
-    theta.moveTo(100);
-    phi.moveTo(base_phi);
-    while (theta.distanceToGo() != 0 || phi.distanceToGo() != 0)
-    {
-      theta.run();
-      phi.run();
-    }
-    theta.moveTo(50);
-    phi.moveTo(base_phi + delta);
-    while (theta.distanceToGo() != 0 || phi.distanceToGo() != 0)
-    {
-      theta.run();
-      phi.run();
-    }
-    theta.moveTo(0);
-    phi.moveTo(base_phi);
-    while (theta.distanceToGo() != 0 || phi.distanceToGo() != 0)
-    {
-      theta.run();
-      phi.run();
-    }
+      loc[0] = 150;
+      loc[1] = base_phi - delta;
+      motors.runSpeedToPosition(loc);
 
-    theta.moveTo(50);
-    phi.moveTo(base_phi - delta);
-    while (theta.distanceToGo() != 0 || phi.distanceToGo() != 0)
-    {
-      theta.run();
-      phi.run();
-    }
-    theta.moveTo(100);
-    phi.moveTo(base_phi);
-    while (theta.distanceToGo() != 0 || phi.distanceToGo() != 0)
-    {
-      theta.run();
-      phi.run();
-    }
-    theta.moveTo(150);
-    phi.moveTo();
-    while (theta.distanceToGo() != 0 || phi.distanceToGo() != 0)
-    {
-      theta.run(base_phi + delta);
-      phi.run();
-    }
-    theta.moveTo(200);
-    phi.moveTo(base_phi);
-    while (theta.distanceToGo() != 0 || phi.distanceToGo() != 0)
-    {
-      theta.run();
-      phi.run();
-    }
+      loc[0] = 100;
+      loc[1] = base_phi;
+      motors.runSpeedToPosition(loc);
 
-    delta += delta_delta;
+      loc[0] = 50;
+      loc[1] = base_phi + delta;
+      motors.runSpeedToPosition(loc);
+
+      loc[0] = 0;
+      loc[1] = base_phi;
+      motors.runSpeedToPosition(loc);
+
+      loc[0] = 50;
+      loc[1] = base_phi - delta;
+      motors.runSpeedToPosition(loc);
+
+      loc[0] = 100;
+      loc[1] = base_phi;
+      motors.runSpeedToPosition(loc);
+
+      loc[0] = 150;
+      loc[1] = base_phi + delta;
+      motors.runSpeedToPosition(loc);
+
+      loc[0] = 200;
+      loc[1] = base_phi;
+      motors.runSpeedToPosition(loc);
+
+      delta += delta_delta;
+    }
   }
 
   delay(1000000000)
